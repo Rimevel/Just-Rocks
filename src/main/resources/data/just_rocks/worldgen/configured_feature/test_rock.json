@@ -1,0 +1,9 @@
+{
+  "type": "just_rocks:rock",
+  "config": {
+    "rock_type": "fractured_boulder",
+    "material": {
+      "Name": "minecraft:granite"
+    }
+  }
+}
