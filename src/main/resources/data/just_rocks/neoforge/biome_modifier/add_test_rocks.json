@@ -2,5 +2,5 @@
   "type": "neoforge:add_features",
   "biomes": "#minecraft:is_overworld",
   "features": "just_rocks:test_rocks",
-  "step": "vegetal_decoration"
+  "step": "raw_generation"
 }

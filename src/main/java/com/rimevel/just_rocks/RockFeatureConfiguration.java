@@ -5,14 +5,13 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.melvin.rocktool.RockType;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 
 import java.util.Locale;
 
 public record RockFeatureConfiguration(
     RockType rockType,
-    BlockState blockState,
+    MaterialConfiguration material,
     int width,
     int length,
     int height,
@@ -39,8 +38,10 @@ public record RockFeatureConfiguration(
             instance.group(
                 ROCK_TYPE_CODEC.fieldOf("rock_type").forGetter(RockFeatureConfiguration::rockType),
 
-                BlockState.CODEC.optionalFieldOf("material", Blocks.STONE.defaultBlockState())
-                        .forGetter(RockFeatureConfiguration::blockState),
+                MaterialConfiguration.CODEC.optionalFieldOf("material",  new MaterialConfiguration.Uniform(
+                                Blocks.STONE.defaultBlockState()
+                        ))
+                        .forGetter(RockFeatureConfiguration::material),
 
                 Codec.INT.optionalFieldOf("width", 0).forGetter(RockFeatureConfiguration::width),
 

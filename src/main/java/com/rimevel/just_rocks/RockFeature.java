@@ -1,19 +1,14 @@
 package com.rimevel.just_rocks;
 
-import net.melvin.rocktool.RockMaterialField;
 import net.melvin.rocktool.RockPlacementHelper;
-import net.melvin.rocktool.RockType;
 import net.melvin.rocktool.RockVariantCache;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -41,7 +36,7 @@ public class RockFeature extends Feature<RockFeatureConfiguration> {
     ) {
         RockVariantCache variants = new RockVariantCache(level.getSeed());
 
-        var request = getRequest(origin, config);
+        var request = getRequest(origin, config, level);
 
         var placements = RockPlacementHelper.plan(
                 List.of(request),
@@ -78,10 +73,7 @@ public class RockFeature extends Feature<RockFeatureConfiguration> {
         }
     }
 
-    private static RockPlacementHelper.@NotNull Request getRequest(BlockPos origin, RockFeatureConfiguration config) {
-        RockMaterialField material = (rock, x, y, z) ->
-                config.blockState();
-
+    private static RockPlacementHelper.@NotNull Request getRequest(BlockPos origin, RockFeatureConfiguration config, WorldGenLevel level) {
         long objectId = origin.asLong();
 
         var request = new RockPlacementHelper.Request(
@@ -91,7 +83,7 @@ public class RockFeature extends Feature<RockFeatureConfiguration> {
                 origin.getX(),
                 origin.getZ(),
                 config.orientation(),
-                material,
+                config.material().create(level.getSeed()),
                 config.embedDepth(),
                 config.maximumSurfaceRelief(),
                 config.clearance(),
