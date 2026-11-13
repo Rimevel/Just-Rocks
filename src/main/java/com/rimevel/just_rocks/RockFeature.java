@@ -90,14 +90,14 @@ public class RockFeature extends Feature<RockFeatureConfiguration> {
                 -1,
                 origin.getX(),
                 origin.getZ(),
-                0.0,
+                config.orientation(),
                 material,
-                0.0,
-                12.0,
-                0.0,
-                6.0,
-                6.0,
-                8.0
+                config.embedDepth(),
+                config.maximumSurfaceRelief(),
+                config.clearance(),
+                config.width(),
+                config.length(),
+                config.height()
         );
         return request;
     }

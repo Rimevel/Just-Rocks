@@ -4,6 +4,9 @@
     "rock_type": "fractured_boulder",
     "material": {
       "Name": "minecraft:granite"
-    }
+    },
+    "width": 6,
+    "length": 6,
+    "height": 24
   }
 }
