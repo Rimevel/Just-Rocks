@@ -1,7 +1,7 @@
 {
   "type": "just_rocks:rock",
   "config": {
-    "rock_type": "tilted_monolith",
+    "rock_type": "FRACTURED_BOULDER",
     "material": {
       "type": "palette",
       "seed_offset": 1234,
@@ -14,7 +14,7 @@
           "components": [
             {
               "block": {
-                "Name": "minecraft:tuff"
+                "Name": "minecraft:granite"
               },
               "weight": 8.0
             },
@@ -40,9 +40,9 @@
         }
       ]
     },
-    "width": 32,
-    "length": 32,
-    "height": 32,
+    "width": 16,
+    "length": 16,
+    "height": 220,
     "decoration_rules": {
       "top_soil": {
         "surface": {
@@ -58,7 +58,7 @@
           "block": {
             "Name": "minecraft:short_grass"
           },
-          "chance": 0.12
+          "chance": 0.4
         }
       ]
     }

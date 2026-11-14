@@ -14,13 +14,23 @@ public record DecorationRulesConfiguration (
         TopSoilConfiguration topSoil,
         List<SurfacePlantConfiguration> plants
 ) {
+    public static final DecorationRulesConfiguration EMPTY =
+            new DecorationRulesConfiguration(
+                    null,
+                    List.of()
+            );
+
     public static final Codec<DecorationRulesConfiguration> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    TopSoilConfiguration.CODEC.fieldOf("top_soil")
-                            .forGetter(DecorationRulesConfiguration::topSoil),
+                    TopSoilConfiguration.CODEC.codec().optionalFieldOf("top_soil")
+                            .forGetter(config -> java.util.Optional.ofNullable(config.topSoil())),
 
-                    SurfacePlantConfiguration.CODEC.listOf().fieldOf("plants").forGetter(DecorationRulesConfiguration::plants)
-            ).apply(instance, DecorationRulesConfiguration::new)
+                    SurfacePlantConfiguration.CODEC.listOf().optionalFieldOf("plants", List.of()).forGetter(DecorationRulesConfiguration::plants)
+            ).apply(instance, (topSoil, plants) ->
+                    new DecorationRulesConfiguration(
+                            topSoil.orElse(null),
+                            plants
+                    ))
     );
 
     public record TopSoilConfiguration(
@@ -93,23 +103,25 @@ public record DecorationRulesConfiguration (
     public RockDecorationRules create() {
         RockDecorationRules.Builder builder = RockDecorationRules.builder();
 
-        if (topSoil.types().isEmpty()) {
-            builder.topSoil(
-                    topSoil.surface(),
-                    topSoil.subsurface(),
-                    topSoil.depth(),
-                    topSoil.maximumRelief(),
-                    topSoil.coverage()
-            );
-        } else {
-            builder.topSoilFor(
-                    topSoil.types(),
-                    topSoil.surface(),
-                    topSoil.subsurface(),
-                    topSoil.depth(),
-                    topSoil.maximumRelief(),
-                    topSoil.coverage()
-            );
+        if (topSoil != null) {
+            if (topSoil.types().isEmpty()) {
+                builder.topSoil(
+                        topSoil.surface(),
+                        topSoil.subsurface(),
+                        topSoil.depth(),
+                        topSoil.maximumRelief(),
+                        topSoil.coverage()
+                );
+            } else {
+                builder.topSoilFor(
+                        topSoil.types(),
+                        topSoil.surface(),
+                        topSoil.subsurface(),
+                        topSoil.depth(),
+                        topSoil.maximumRelief(),
+                        topSoil.coverage()
+                );
+            }
         }
 
         for (SurfacePlantConfiguration plant : plants) {

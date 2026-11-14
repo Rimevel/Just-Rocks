@@ -59,7 +59,7 @@ public record RockFeatureConfiguration(
 
                 Codec.DOUBLE.optionalFieldOf("clearance", 0.0).forGetter(RockFeatureConfiguration::clearance),
 
-                DecorationRulesConfiguration.CODEC.fieldOf("decoration_rules").forGetter(RockFeatureConfiguration::decorationRules)
+                DecorationRulesConfiguration.CODEC.optionalFieldOf("decoration_rules", DecorationRulesConfiguration.EMPTY).forGetter(RockFeatureConfiguration::decorationRules)
             ).apply(instance, RockFeatureConfiguration::new)
     );
 }
