@@ -89,7 +89,8 @@ public class RockFeature extends Feature<RockFeatureConfiguration> {
                 config.clearance(),
                 config.width(),
                 config.length(),
-                config.height()
+                config.height(),
+                config.decorationRules().create()
         );
         return request;
     }

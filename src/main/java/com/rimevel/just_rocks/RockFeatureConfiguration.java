@@ -18,7 +18,8 @@ public record RockFeatureConfiguration(
     double orientation,
     double embedDepth,
     double maximumSurfaceRelief,
-    double clearance
+    double clearance,
+    DecorationRulesConfiguration decorationRules
 ) implements FeatureConfiguration {
     public static final Codec<RockType> ROCK_TYPE_CODEC =
             Codec.STRING.comapFlatMap(
@@ -56,7 +57,9 @@ public record RockFeatureConfiguration(
                 Codec.DOUBLE.optionalFieldOf("maximum_surface_relief", 12.0)
                         .forGetter(RockFeatureConfiguration::maximumSurfaceRelief),
 
-                Codec.DOUBLE.optionalFieldOf("clearance", 0.0).forGetter(RockFeatureConfiguration::clearance)
+                Codec.DOUBLE.optionalFieldOf("clearance", 0.0).forGetter(RockFeatureConfiguration::clearance),
+
+                DecorationRulesConfiguration.CODEC.fieldOf("decoration_rules").forGetter(RockFeatureConfiguration::decorationRules)
             ).apply(instance, RockFeatureConfiguration::new)
     );
 }

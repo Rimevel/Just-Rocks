@@ -42,6 +42,25 @@
     },
     "width": 32,
     "length": 32,
-    "height": 32
+    "height": 32,
+    "decoration_rules": {
+      "top_soil": {
+        "surface": {
+          "Name": "minecraft:grass_block"
+        },
+        "subsurface": {
+          "Name": "minecraft:dirt"
+        },
+        "depth": 2
+      },
+      "plants": [
+        {
+          "block": {
+            "Name": "minecraft:short_grass"
+          },
+          "chance": 0.12
+        }
+      ]
+    }
   }
 }
