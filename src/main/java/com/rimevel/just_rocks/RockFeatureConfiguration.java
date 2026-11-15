@@ -4,6 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.melvin.rocktool.RockType;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 
@@ -12,9 +14,9 @@ import java.util.Locale;
 public record RockFeatureConfiguration(
     RockType rockType,
     MaterialConfiguration material,
-    int width,
-    int length,
-    int height,
+    IntProvider width,
+    IntProvider length,
+    IntProvider height,
     double orientation,
     double embedDepth,
     double maximumSurfaceRelief,
@@ -44,11 +46,11 @@ public record RockFeatureConfiguration(
                         ))
                         .forGetter(RockFeatureConfiguration::material),
 
-                Codec.INT.optionalFieldOf("width", 0).forGetter(RockFeatureConfiguration::width),
+                IntProvider.codec(4, Integer.MAX_VALUE).optionalFieldOf("width", ConstantInt.of(4)).forGetter(RockFeatureConfiguration::width),
 
-                Codec.INT.optionalFieldOf("length", 0).forGetter(RockFeatureConfiguration::length),
+                IntProvider.codec(4, Integer.MAX_VALUE).optionalFieldOf("length", ConstantInt.of(4)).forGetter(RockFeatureConfiguration::length),
 
-                Codec.INT.optionalFieldOf("height", 0).forGetter(RockFeatureConfiguration::height),
+                IntProvider.codec(4, Integer.MAX_VALUE).optionalFieldOf("height", ConstantInt.of(4)).forGetter(RockFeatureConfiguration::height),
 
                 Codec.DOUBLE.optionalFieldOf("orientation", 0.0).forGetter(RockFeatureConfiguration::orientation),
 

@@ -3,6 +3,7 @@ package com.rimevel.just_rocks;
 import net.melvin.rocktool.RockPlacementHelper;
 import net.melvin.rocktool.RockVariantCache;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -23,8 +24,9 @@ public class RockFeature extends Feature<RockFeatureConfiguration> {
         WorldGenLevel level = context.level();
         BlockPos origin = context.origin();
         RockFeatureConfiguration config = context.config();
+        RandomSource random = context.random();
 
-        placeRock(level, origin, config);
+        placeRock(level, origin, config, random);
 
         return true;
     }
@@ -32,11 +34,12 @@ public class RockFeature extends Feature<RockFeatureConfiguration> {
     private static void placeRock(
             WorldGenLevel level,
             BlockPos origin,
-            RockFeatureConfiguration config
+            RockFeatureConfiguration config,
+            RandomSource random
     ) {
         RockVariantCache variants = new RockVariantCache(level.getSeed());
 
-        var request = getRequest(origin, config, level);
+        var request = getRequest(origin, config, level, random);
 
         var placements = RockPlacementHelper.plan(
                 List.of(request),
@@ -73,7 +76,7 @@ public class RockFeature extends Feature<RockFeatureConfiguration> {
         }
     }
 
-    private static RockPlacementHelper.@NotNull Request getRequest(BlockPos origin, RockFeatureConfiguration config, WorldGenLevel level) {
+    private static RockPlacementHelper.@NotNull Request getRequest(BlockPos origin, RockFeatureConfiguration config, WorldGenLevel level, RandomSource random) {
         long objectId = origin.asLong();
 
         var request = new RockPlacementHelper.Request(
@@ -87,9 +90,9 @@ public class RockFeature extends Feature<RockFeatureConfiguration> {
                 config.embedDepth(),
                 config.maximumSurfaceRelief(),
                 config.clearance(),
-                config.width(),
-                config.length(),
-                config.height(),
+                config.width().sample(random),
+                config.length().sample(random),
+                config.height().sample(random),
                 config.decorationRules().create()
         );
         return request;
